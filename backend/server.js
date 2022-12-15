@@ -7,10 +7,14 @@ const hotelRoute = require('./routes/hotels')
 const roomRoute = require('./routes/rooms')
 const userRoute = require('./routes/users')
 
+const cookieParser = require('cookie-parser');
+
 //express app
 const app = express();
 
 //middleware
+
+app.use(cookieParser());
 app.use(express.json());
 
 app.use((req, res,next) => {
