@@ -1,19 +1,21 @@
 const express = require('express');
 
 const { getAllHotels, getHotel, createHotel, deleteHotel, updateHotel } = require('../controllers/hotelController');
+const { verifyAdmin } = require('../utils/verifyToken');
+const { verifyAdmin } = require('../utils/verifyToken');
 
 const router = express.Router();
 
 // get all
-router.get('/', getAllHotels);
+router.get('/', verifyAdmin ,getAllHotels);
 // get one
-router.get('/:id', getHotel);
+router.get('/:id', verifyAdmin ,getHotel);
 // create
-router.post('/', createHotel);
+router.post('/', verifyAdmin ,createHotel);
 // delete
-router.delete('/:id', deleteHotel);
+router.delete('/:id', verifyAdmin ,deleteHotel);
 // update
-router.patch('/:id', updateHotel);
+router.patch('/:id', verifyAdmin ,updateHotel);
 
 
 
