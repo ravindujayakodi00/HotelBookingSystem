@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const verifyToken = (req, res, next) => {
+export const verifyToken = (req, res, next) => {
     const token = req.cookies.access_token;
     if(!token) {
         return res.status(401).json({error: 'You are not authorized'});
@@ -17,4 +17,26 @@ const verifyToken = (req, res, next) => {
 
 };
 
-module.exports = verifyToken;
+export const verifyUser = (req, res, next) => {
+    verifyToken(req, res, next , () => {
+        if(req.user.id === req.params.id || req.user.isAdmin) {
+            next();
+        } else {
+            if (error) {
+                return next(error(403, 'You are not authorized to perform this action'))
+            }
+        }
+    });
+}
+
+export const verifyAdmin = (req, res, next) => {
+    verifyToken(req, res, next , () => {
+        if(req.user.isAdmin) {
+            next();
+        } else {
+            if (error) {
+                return next(error(403, 'You are not authorized to perform this action'))
+            }
+        }
+    });
+}
