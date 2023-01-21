@@ -63,7 +63,6 @@ const updateUser = async (req,res) => {
 module.exports = {
     getAllUsers,
     getUser,
-    createUser,
     deleteUser,
     updateUser,
 }
