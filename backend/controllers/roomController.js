@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 
 const Room = require("../models/roomModel");
-const Hotel = require("../models/hotelModel");
+const Hotel = require("../models/hotelModel"); 
 
 const getAllRooms = async (req, res) => {
     const rooms = await Room.find().sort({ createdAt: -1 });
@@ -26,20 +26,21 @@ const getRoom = async (req, res) => {
 };
 
 const createRoom = async (req, res) => {
-    
     const hotelId = req.params.hotelid;
     const newRoom = new Room(req.body);
-    
-    try{
-        const savedRoom = await newRoom.save();
-        try{
-            await Hotel.findByIdAndUpdate(hotelId, {$push: {rooms: savedRoom._id}});
-        } catch (error) {
-            res.status(500).json({error: 'Hotel not found'});
-        }
-        res.status(200).json(savedRoom);
-    } catch (error) {
-        res.status(500).json({error: 'Room not created'});
+  
+    try {
+      const savedRoom = await newRoom.save();
+      try {
+        await Hotel.findByIdAndUpdate(hotelId, {
+          $push: { rooms: savedRoom._id },
+        });
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+      res.status(200).json(savedRoom);
+    } catch (err) {
+        return res.status(500).json(err);
     }
 };
 

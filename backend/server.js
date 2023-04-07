@@ -1,12 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
-
 const authRoute = require('./routes/auth')
 const hotelRoute = require('./routes/hotels')
 const roomRoute = require('./routes/rooms')
 const userRoute = require('./routes/users')
-
 const cookieParser = require('cookie-parser');
 
 //express app
