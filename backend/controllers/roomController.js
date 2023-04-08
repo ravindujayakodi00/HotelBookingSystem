@@ -46,19 +46,20 @@ const createRoom = async (req, res) => {
 
 //delete a room
 const deleteRoom = async (req,res) => {
-    const { id } = req.params;
-    
-    if(!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'No such a room'});
+    const hotelId = req.params.hotelid;
+    try {
+      await Room.findByIdAndDelete(req.params.id);
+      try {
+        await Hotel.findByIdAndUpdate(hotelId, {
+          $pull: { rooms: req.params.id },
+        });
+      } catch (err) {
+        return res.status(500).json(err);
+      }
+      res.status(200).json("Room has been deleted.");
+    } catch (err) {
+        return res.status(500).json(err);
     }
-
-    const room = await Room.findOneAndDelete({_id: id});
-
-    if(!room) {
-        return res.status(404).json({error: 'No such a room'});
-    }
-
-    res.status(200).json(room);
 }
 
 //update a room
